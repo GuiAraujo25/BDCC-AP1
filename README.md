@@ -1,63 +1,64 @@
-📦 Catálogo de Produtos e Categorias - Django API
-Projeto desenvolvido para a disciplina de Big Data e Cloud Computing. Implementação de uma API REST com relacionamento entre entidades e deploy automatizado na AWS Elastic Beanstalk.
+# 📦 Catálogo de Produtos e Categorias - Django API
 
-💻 1. Configuração e Execução Local
-Para rodar este projeto em ambiente de desenvolvimento:
+Este projeto consiste em uma API REST desenvolvida em Django para a gestão de um catálogo de produtos. A aplicação foi estruturada com relacionamentos entre tabelas e configurada para deploy automatizado na nuvem utilizando o **AWS Elastic Beanstalk**.
 
-Ambiente Virtual (venv):
+---
 
-Utilize o Python 3.12.
+## 💻 1. Configuração e Execução Local
 
-Crie o ambiente: python -m venv venv
+Para rodar este projeto em ambiente de desenvolvimento, siga os passos:
 
-Ative o ambiente: .\venv\Scripts\activate (Windows) ou source venv/bin/activate (Linux/Mac).
+1.  **Ambiente Virtual (venv):**
+    * Certifique-se de utilizar o Python 3.12.
+    * Crie o ambiente: `python -m venv venv`
+    * Ative o ambiente: `.\venv\Scripts\activate` (Windows) ou `source venv/bin/activate` (Linux/Mac).
 
-Instalação de Dependências:
+2.  **Instalação de Dependências:**
+    * Instale os pacotes necessários: `pip install -r requirements.txt`
 
-Instale os pacotes: pip install -r requirements.txt
+3.  **Banco de Dados (SQLite):**
+    * Gere os arquivos de migração: `python manage.py makemigrations`
+    * Aplique as migrações ao banco local: `python manage.py migrate`
 
-Banco de Dados (SQLite):
+4.  **Execução:**
+    * Inicie o servidor de desenvolvimento: `python manage.py runserver`
+    * Acesse a API em: `http://127.0.0.1:8000/api/produtos/`
 
-Gere as migrações: python manage.py makemigrations
+---
 
-Aplique as migrações: python manage.py migrate
+## 🛠️ 2. Alterações Realizadas e Modelagem
 
-Execução:
+O projeto foi evoluído para suportar uma estrutura de dados relacional e requisitos de produção exigidos no cenário:
 
-Inicie o servidor: python manage.py runserver
+* **Entidade Categoria:** Implementada a classe `Categoria` para permitir a organização dos produtos.
+* **Relacionamento:** Utilização de `ForeignKey` na classe `Produto`, estabelecendo um relacionamento de Muitos-para-Um (Many-to-One) com a classe `Categoria`.
+* **Ajustes de Segurança:** Configuração dinâmica do `ALLOWED_HOSTS` no arquivo `settings.py` para ler variáveis de ambiente da AWS via `os.getenv`.
+* **Serialização:** O `ProdutoSerializer` foi configurado para retornar os detalhes da categoria associada, facilitando o consumo por aplicações frontend.
+* **Mídia e Estáticos:** Configuração de `STATIC_ROOT` e `MEDIA_ROOT` para o gerenciamento de imagens de produtos (como o Omni-Man) e do CSS do painel administrativo.
 
-Acesse a API em: http://127.0.0.1:8000/api/produtos/
+---
 
-🛠️ 2. Alterações Realizadas e Modelagem
-O projeto foi evoluído para suportar uma estrutura de dados relacional e requisitos de produção:
+## ☁️ 3. Implementação e Deploy (AWS Elastic Beanstalk)
 
-Nova Classe Categoria: Implementada para organizar os produtos. Possui um relacionamento ForeignKey com a classe Produto (relacionamento de um-para-muitos).
+O deploy foi realizado seguindo as melhores práticas de automação de infraestrutura:
 
-Ajustes no settings.py: Configuração dinâmica do ALLOWED_HOSTS via variáveis de ambiente (os.getenv) para aceitar o domínio da AWS.
+1.  **Pacote de Deploy:** Criação de arquivo `.zip` otimizado, excluindo pastas de cache, ambiente virtual e banco de dados local.
+2.  **Configurações de Software (.ebextensions):**
+    * Criação do arquivo `db.config` para automação de tarefas.
+    * **Migrações Automáticas:** Comando configurado para atualizar o banco de dados da AWS a cada deploy.
+    * **Superusuário Automático:** Script shell para garantir a criação do usuário `admin` caso ele não exista, permitindo acesso imediato ao painel.
+3.  **Variáveis de Ambiente:** Cadastro da chave `DJANGO_ALLOWED_HOSTS` no painel da AWS com o domínio oficial do ambiente.
+4.  **Proxy de Arquivos:** Mapeamento dos caminhos `/static/` e `/media/` no console do Elastic Beanstalk para entrega correta de arquivos estáticos.
 
-Serializers Avançados: O ProdutoSerializer foi atualizado para incluir detalhes da categoria pai (CategoriaSerializer), permitindo uma resposta JSON mais rica na API.
+---
 
-Arquivos Estáticos: Configuração de STATIC_ROOT e MEDIA_ROOT para garantir a persistência de imagens de produtos e estilos do painel administrativo.
+## 🔑 Acesso ao Projeto (Produção)
 
-☁️ 3. Documentação de Deploy (AWS Elastic Beanstalk)
-O deploy foi realizado seguindo as etapas de automação de infraestrutura:
+* **URL da API:** [COLE_AQUI_O_LINK_DA_AWS]/api/produtos/
+* **Painel Administrativo:** [COLE_AQUI_O_LINK_DA_AWS]/admin/
+* **Credenciais de Acesso:**
+    * **Usuário:** `admin`
+    * **Senha:** `senha123`
 
-Preparação do Pacote (app.zip):
-
-O arquivo de deploy foi gerado contendo apenas o código-fonte, excluindo arquivos de cache (__pycache__), banco de dados local (db.sqlite3) e ambiente virtual.
-
-Automação via .ebextensions:
-
-Foi criado um arquivo de configuração (db.config) para automatizar duas tarefas críticas durante o deploy:
-
-Migrações Automáticas: O servidor executa o migrate assim que o código é descompactado.
-
-Criação de Superusuário (Root): Implementação de um script shell que verifica a existência e cria automaticamente o usuário administrador para acesso ao painel /admin/ na nuvem.
-
-Variáveis de Ambiente:
-
-Cadastro da chave DJANGO_ALLOWED_HOSTS no console da AWS para validar o domínio do Elastic Beanstalk.
-
-Serviço de Arquivos:
-
-Configuração de caminhos de proxy no console da AWS para mapear /static/ e /media/ aos diretórios correspondentes na instância EC2.
+---
+*Projeto desenvolvido para a disciplina de Big Data e Cloud Computing.*
