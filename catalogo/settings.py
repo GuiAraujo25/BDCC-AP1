@@ -49,8 +49,6 @@ ALLOWED_HOSTS = os.getenv(
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
