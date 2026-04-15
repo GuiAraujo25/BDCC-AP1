@@ -54,8 +54,8 @@ O deploy foi realizado seguindo as melhores práticas de automação de infraest
 
 ## 🔑 Acesso ao Projeto (Produção)
 
-* **URL da API:** [COLE_AQUI_O_LINK_DA_AWS]/api/produtos/
-* **Painel Administrativo:** [COLE_AQUI_O_LINK_DA_AWS]/admin/
+* **URL da API:** http://catalogo-produtos-guilherme-env.eba-v8ykmn4w.us-east-1.elasticbeanstalk.com/api/produtos/
+* **Painel Administrativo:** http://catalogo-produtos-guilherme-env.eba-v8ykmn4w.us-east-1.elasticbeanstalk.com/admin/
 * **Credenciais de Acesso:**
     * **Usuário:** `admin`
     * **Senha:** `senha123`
